@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spinslot – Smart PG Laundry | QR washing machine booking</title>
+  <meta name="description"
+    content="Spinslot lets PG residents scan a QR once, see which washing machine is free, book the next slot and get notified. No hardware needed.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="is-loading">
+
+  <div id="loader" aria-label="Loading">
+    <div class="l-drum">
+      <div class="l-water"></div>
+      <div class="l-clothes"></div>
+    </div>
+    <div class="l-name">Spinslot</div>
+    <div class="l-pct"><span id="pct">0</span>%</div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <canvas id="bubbles" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="#top" class="logo"><span class="logo-mark"></span>Spinslot</a>
+    <nav id="menu">
+      <a href="#demo">Live demo</a><a href="#scan">QR scan</a><a href="#how">How it works</a><a
+        href="#features">Features</a>
+      <a href="#contact" class="btn btn-sm">Get it for your PG</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"
+      aria-controls="menu"><i></i><i></i></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="chip"><span class="dot"></span>Built for PGs, hostels &amp; shared flats</p>
+        <h1><span class="ln"><b>Scan once.</b></span><span class="ln"><b>Check anytime.</b></span><span
+            class="ln"><b>Skip the queue.</b></span></h1>
+        <p class="lead">Spinslot shows every resident which washing machine is free, who is using it and when it ends.
+          Book the next slot from your bed and get a ping when your turn starts.</p>
+        <div class="cta-row">
+          <a href="#contact" class="btn">Book a free demo</a>
+          <a href="#demo" class="btn btn-ghost">Try the live demo</a>
+        </div>
+        <ul class="proof">
+          <li><strong data-count="0">0</strong><span>hardware to install</span></li>
+          <li><strong data-count="1">1</strong><span>QR scan per machine</span></li>
+          <li><strong data-count="5">5</strong><span>min finish reminder</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <div class="ring"></div>
+        <div class="phone" id="tilt">
+          <div class="notch"></div>
+          <div class="phone-head"><small>Sri Lakshmi PG</small><b>Laundry room</b></div>
+          <div class="board" id="heroBoard"></div>
+          <div class="push" id="push"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="track">
+        <span>“Is the machine free?”</span><span>“Who is using it?”</span><span>“Forgot my clothes
+          again”</span><span>“Who booked next?”</span><span>“Why is it still running?”</span>
+        <span>“Is the machine free?”</span><span>“Who is using it?”</span><span>“Forgot my clothes
+          again”</span><span>“Who booked next?”</span><span>“Why is it still running?”</span>
+      </div>
+    </div>
+
+    <section class="sec demo" id="demo">
+      <div class="sec-head">
+        <h2>Try it. Tap a machine.</h2>
+        <p>This is the real flow. Start a wash, then book the next slot on a busy machine. Demo time runs at 1 second =
+          1 minute.</p>
+      </div>
+      <div class="demo-grid">
+        <div class="phone phone-flat">
+          <div class="phone-head"><small>Sri Lakshmi PG · Room 301</small><b>Your machines</b></div>
+          <div class="board" id="demoBoard"></div>
+        </div>
+        <div class="toasts" id="toasts">
+          <h3>Notifications</h3>
+          <p class="empty">Start or book a machine to see what residents receive.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec scan" id="scan">
+      <div class="scan-grid">
+        <div class="qr-card">
+          <div class="qr" id="qr"><span class="laser"></span></div>
+          <div class="qr-ok"><b>Scan successful</b><span>Sri Lakshmi PG · Machine 1 · WM001</span><em>Add machine</em>
+          </div>
+        </div>
+        <div>
+          <h2>Scan the sticker once. The machine stays on your phone.</h2>
+          <p class="lead">Every machine gets its own QR code, linked to one PG and one machine. After the first scan it
+            shows up on your dashboard every time you open the app.</p>
+          <ul class="ticks">
+            <li>Print QR stickers from the owner dashboard</li>
+            <li>Residents of other PGs can’t see your machines</li>
+            <li>Deactivate or regenerate a code any time</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec how" id="how">
+      <div class="sec-head">
+        <h2>From sticker to booked slot in four steps</h2>
+      </div>
+      <ol class="steps">
+        <li><span class="n">1</span>
+          <h3>Owner adds machines</h3>
+          <p>Register the PG, add each washing machine and print its unique QR sticker.</p>
+        </li>
+        <li><span class="n">2</span>
+          <h3>Residents scan once</h3>
+          <p>Scan the sticker and tap Add machine. It stays on your dashboard for good.</p>
+        </li>
+        <li><span class="n">3</span>
+          <h3>Tap Currently using</h3>
+          <p>Enter the duration shown on the machine. Everyone sees who has it and when it ends.</p>
+        </li>
+        <li><span class="n">4</span>
+          <h3>Book next &amp; get pinged</h3>
+          <p>Join the queue behind the current user. Your slot starts the moment theirs ends.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="sec" id="features">
+      <div class="sec-head">
+        <h2>Everything a shared laundry room needs</h2>
+      </div>
+      <div class="bento">
+        <article class="b b-lg">
+          <h3>Live availability</h3>
+          <p>Available, In use, Booked or Maintenance, with the user’s name, room and remaining time. Only verified
+            residents of the same PG can see it.</p>
+          <div class="pills"><span class="p-ok">Available</span><span class="p-use">In use</span><span
+              class="p-book">Booked</span><span class="p-off">Maintenance</span></div>
+        </article>
+        <article class="b">
+          <h3>Smart queue</h3>
+          <p>No overlaps. See your position and get shifted up automatically when someone cancels.</p>
+        </article>
+        <article class="b">
+          <h3>Notifications that matter</h3>
+          <p>Session started, 10 and 5 minutes before your slot, wash finished, slot cancelled.</p>
+        </article>
+        <article class="b">
+          <h3>No IoT, no cost</h3>
+          <p>Works with the machines you already own. Residents enter the duration shown on the display.</p>
+        </article>
+        <article class="b b-lg b-dark">
+          <h3>Owner dashboard on the web</h3>
+          <p>Add machines, print QR codes, approve residents, mark a machine under maintenance and review every booking
+            and cancellation.</p>
+          <div class="mini">
+            <div><strong id="sMach">3</strong><span>machines</span></div>
+            <div><strong id="sOcc">1</strong><span>in use now</span></div>
+            <div><strong id="sBook">12</strong><span>bookings today</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="sec contact" id="contact">
+      <div class="contact-box">
+        <div>
+          <h2>Want this in your PG?</h2>
+          <p>Tell us about your PG. We will set up your machines and QR codes and show you the owner dashboard.</p>
+        </div>
+        <form id="lead" novalidate>
+          <label>Your name<input name="name" required autocomplete="name"></label>
+          <label>PG name &amp; city<input name="pg" required></label>
+          <label>Mobile number<input name="phone" type="tel" required inputmode="numeric" pattern="[0-9]{10}"
+              placeholder="10 digits"></label>
+          <button class="btn" type="submit">Request demo</button>
+          <p class="msg" id="msg" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="logo"><span class="logo-mark"></span>Spinslot</div><small>Scan once. Check anytime. Book anytime. Get
+      notified.</small>
+  </footer>
+
+  <a href="#top" class="totop" id="totop" aria-label="Back to top">↑</a>
+  <script src="script.js"></script>
+</body>
+
+</html>
