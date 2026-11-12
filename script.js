@@ -392,21 +392,61 @@
     },
   );
 
-  /* ---------- Lead form ---------- */
+  /* ---------- Lead form (emails via FormSubmit) ---------- */
+  const TO = "cvashok124@gmail.com"; // change to the inbox where you want leads
   const f = $("#lead"),
-    msg = $("#msg");
-  f.addEventListener("submit", (e) => {
+    msg = $("#msg"),
+    sb = f.querySelector("button");
+  f.addEventListener("submit", async (e) => {
     e.preventDefault();
     let ok = true;
-    f.querySelectorAll("input").forEach((i) => {
+    f.querySelectorAll("input[required]").forEach((i) => {
       const v = i.value.trim();
       const bad = !v || (i.type === "tel" && !/^\d{10}$/.test(v));
       i.classList.toggle("bad", bad);
       if (bad) ok = false;
     });
-    msg.textContent = ok
-      ? "Thanks! We will call you within a day to set up your demo."
-      : "Please fill every field. Mobile number must be 10 digits.";
-    if (ok) f.reset(); // TODO: send to your backend / Formspree / EmailJS here
+    if (!ok) {
+      msg.textContent =
+        "Please fill every field. Mobile number must be 10 digits.";
+      return;
+    }
+    const d = Object.fromEntries(new FormData(f));
+    if (d._honey) return; // bot trap
+    sb.disabled = true;
+    sb.textContent = "Sending...";
+    msg.textContent = "";
+    const mail = `mailto:${TO}?subject=${encodeURIComponent("Spinslot demo request: " + d.pg)}&body=${encodeURIComponent(`Name: ${d.name}\nPG: ${d.pg}\nMobile: ${d.phone}`)}`;
+    try {
+      if (location.protocol === "file:")
+        throw new Error(
+          "Open this page from a web address (http://localhost or your hosted link), not by double-clicking the file.",
+        );
+      const r = await fetch("https://formsubmit.co/ajax/" + TO, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: "New Spinslot demo request: " + d.pg,
+          _template: "table",
+          Name: d.name,
+          "PG name & city": d.pg,
+          Mobile: d.phone,
+        }),
+      });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok || res.success === "false" || res.success === false)
+        throw new Error(res.message || "Server refused the request.");
+      msg.textContent =
+        "Thanks! We will call you within a day to set up your demo.";
+      f.reset();
+    } catch (err) {
+      console.error("Form error:", err);
+      msg.innerHTML = `Could not send: ${err.message || "network problem"}<br><a href="${mail}" style="color:#fff;text-decoration:underline">Send by email app instead</a>`;
+    }
+    sb.disabled = false;
+    sb.textContent = "Request demo";
   });
 })();
