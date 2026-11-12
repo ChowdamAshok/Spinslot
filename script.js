@@ -69,7 +69,7 @@
       }),
     { rootMargin: "-45% 0px -50% 0px" },
   );
-  ["demo", "scan", "how", "features"].forEach((id) =>
+  ["demo", "scan", "how", "features", "pricing", "faq"].forEach((id) =>
     spy.observe(document.getElementById(id)),
   );
 
@@ -117,7 +117,9 @@
 
   /* ---------- Scroll reveal + counters ---------- */
   document
-    .querySelectorAll(".sec-head,.steps li,.b,.contact-box,.proof")
+    .querySelectorAll(
+      ".sec-head,.steps li,.b,.contact-box,.proof,.price-card,.faq details",
+    )
     .forEach((el, i) => {
       el.classList.add("rv");
       el.style.transitionDelay = (i % 4) * 90 + "ms";
